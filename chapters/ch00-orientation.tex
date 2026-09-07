@@ -1,0 +1,184 @@
+\chapter{How to Read This Book}
+\label{ch:orientation}
+
+This chapter is not about reinforcement learning (RL) itself. It is the map
+you will keep coming back to. Read it once carefully now, and skim it again
+whenever a later chapter feels like it assumes something you don't
+remember — the chances are it's here.
+
+\section{The Mental Model We're Building}
+
+Every chapter in this book is one link in a single chain of reasoning. The
+chain looks like this:
+
+\begin{center}
+\begin{tikzpicture}[
+    node distance=6mm,
+    every node/.style={font=\small},
+    box/.style={draw, rounded corners, fill=blue!5, align=center,
+                minimum width=7.2cm, minimum height=8mm}
+]
+\node[box] (n1) {Why do we need RL?};
+\node[box, below=of n1] (n2) {What makes RL different from supervised learning?};
+\node[box, below=of n2] (n3) {Agent, environment, and how they interact};
+\node[box, below=of n3] (n4) {Mathematical model: the MDP};
+\node[box, below=of n4] (n5) {Measuring how good an action is: return \& value};
+\node[box, below=of n5] (n6) {Learning values and policies from experience};
+\node[box, below=of n6] (n7) {Scaling up with neural networks (Deep RL)};
+\node[box, below=of n7] (n8) {Continuous control for robotics};
+\node[box, below=of n8] (n9) {Multiple agents learning together (MARL)};
+
+\foreach \i/\j in {n1/n2, n2/n3, n3/n4, n4/n5, n5/n6, n6/n7, n7/n8, n8/n9}
+  \draw[-{Latex[length=2mm]}] (\i) -- (\j);
+\end{tikzpicture}
+\end{center}
+
+Whenever you feel lost in a later chapter, come back to this diagram and ask:
+\emph{which link in this chain am I currently on?} Almost every piece of
+confusion in RL comes from mixing up two adjacent links — for example,
+confusing ``how good an action is'' (a value) with ``what action to take''
+(a policy). We will name and separate these ideas carefully as they appear.
+
+\section{Notation Convention}
+\label{sec:notation}
+
+Below is the complete notation table for the whole book. You do not need to
+memorize it now — just know it exists, and come back here whenever a symbol
+feels unfamiliar. Every symbol below will be re-introduced with a full
+explanation the first time it is actually used; this table is a reference,
+not a first lesson.
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Symbol} & \textbf{Meaning} \\
+\midrule
+$t$ & discrete time step \\
+$\state_t \in \stateSet$ & state at time $t$; the set of all possible states \\
+$\obs_t \in \obsSet$ & observation at time $t$ (what the agent actually perceives) \\
+$\act_t \in \actSet$ & action at time $t$; the set of all possible actions \\
+$\rew_t$ (or $R_t$) & reward received after taking $\act_t$ in $\state_t$ \\
+$P(\state' \mid \state, \act)$ & transition dynamics of the environment \\
+$\discount \in [0,1]$ & discount factor \\
+$\return_t$ & return (discounted sum of future rewards) from time $t$ \\
+$\policy(\act \mid \state)$ & stochastic policy; $\policy_\params$ when parameterized \\
+$\Vpi(\state)$ & state-value function under policy $\policy$ \\
+$\Qpi(\state,\act)$ & action-value function under policy $\policy$ \\
+$\Api(\state,\act)$ & advantage function, $\Qpi(\state,\act) - \Vpi(\state)$ \\
+$\lr$ & learning rate \\
+$\params$ & policy (or, later, network) parameters \\
+$\phi$ & critic / value-network parameters (once actor-critic appears) \\
+$\replaybuf$ & dataset or replay buffer \\
+$\traj$ & trajectory, i.e.\ a sequence $(\state_0, \act_0, \rew_1, \state_1, \dots)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{remark}
+Notation in this book never changes meaning silently. If a later chapter
+needs to refine a symbol (for instance, splitting $\params$ into an actor's
+$\params$ and a critic's $\phi$), that refinement will be announced
+explicitly, in the text, at the moment it happens.
+\end{remark}
+
+\section{The Recurring Examples}
+\label{sec:recurring-examples}
+
+Instead of inventing a new toy problem every few pages, this book reuses
+five environments throughout. Getting familiar with them now means that,
+later, you can focus entirely on the \emph{new idea} a chapter introduces,
+because the \emph{setting} will already feel like home.
+
+\begin{description}[leftmargin=1.6cm, style=nextline]
+  \item[Example A — Grid World] \hfill \\
+  A small rectangular grid. The agent starts in one cell and must reach a
+  goal cell, choosing among moves like up/down/left/right at each step.
+  This is the workhorse example for Chapters 1–12: states, actions,
+  rewards, trajectories, policies, value functions, Bellman equations,
+  dynamic programming, Monte Carlo, TD learning, and Q-learning are all
+  taught on this one small world first.
+
+  \item[Example B — Cliff Walking] \hfill \\
+  A grid world variant with a ``cliff'' of very negative reward running
+  along one edge. A short, risky path hugs the cliff; a longer, safe path
+  avoids it. This tension is exactly what makes it the right environment
+  for teaching exploration vs.\ exploitation, and for showing why SARSA
+  and Q-learning — two algorithms that look almost identical on paper —
+  can learn genuinely different policies (Chapter 11).
+
+  \item[Example C — CartPole] \hfill \\
+  A pole balanced on a cart that the agent pushes left or right. The state
+  is continuous (position, velocity, angle, angular velocity), which is
+  precisely why tables stop working and neural networks enter the story.
+  Used from Chapter 13 onward for Deep Q-Networks, policy gradients, and
+  PPO.
+
+  \item[Example D — Robotic Arm] \hfill \\
+  A simulated arm that must reach, and eventually grasp, a target. Actions
+  are continuous torques or joint targets rather than a discrete menu.
+  This is where continuous-control algorithms (DDPG, TD3, SAC), reward
+  shaping, and sim-to-real transfer are taught, starting in Chapter 22.
+
+  \item[Example E — Multiple Robots] \hfill \\
+  Several robots (or arms) that must accomplish a shared task — for
+  example, moving objects cooperatively. This is the setting for
+  multi-agent RL from Chapter 46 onward: centralized training with
+  decentralized execution, credit assignment, and communication.
+\end{description}
+
+\begin{intuitionbox}
+Think of Examples A and B as your ``training wheels'' world — small enough
+to compute everything by hand. Example C is where the book becomes
+recognizably modern deep RL. Examples D and E are where the book becomes
+\emph{your} field: robotics and multi-robot systems.
+\end{intuitionbox}
+
+\section{How Each Concept Will Be Taught}
+
+Every major concept in this book follows the same ten-step shape:
+motivation $\to$ intuition $\to$ formal definition $\to$ derivation $\to$
+concrete numerical example $\to$ algorithm $\to$ pseudocode $\to$
+implementation intuition $\to$ limitations $\to$ connection to what comes
+next. You will see this rhythm so often that it becomes a way of reading
+new RL material outside of this book too — which is the actual goal.
+
+You will also see four recurring box styles:
+
+\begin{intuitionbox}
+Plain-language framing of an idea, before or alongside the mathematics.
+\end{intuitionbox}
+
+\begin{keyidea}
+A one- or two-sentence distillation of the chapter's central point.
+\end{keyidea}
+
+\begin{whythisworks}
+An explanation of \emph{why} a method succeeds, not just what it computes.
+\end{whythisworks}
+
+\begin{commonmistakes}
+Misconceptions beginners commonly form about the concept just introduced.
+\end{commonmistakes}
+
+\section{The Code Companion}
+
+At the end of every chapter, after the \emph{Exercises} section, you will
+find a short, clearly separated section titled \textbf{Code Companion
+Prompts}. These are not part of the textbook's teaching content — they are
+ready-to-use prompts (for yourself, or for an AI coding assistant) that
+tell you exactly what to implement in the companion repository's
+\texttt{code/} directory to turn this chapter's mathematics into running
+code. The repository structure is described in the project \texttt{README.md}
+and mirrors the recurring examples above: shared environments live in
+\texttt{code/envs/}, and each algorithmic chapter gets its own subfolder.
+
+\section{Roadmap Reminder}
+
+Whenever a chapter uses something from earlier without re-deriving it, it
+will say so explicitly (``recall from Chapter~5 that\dots''). If you ever
+read a sentence in this book that assumes something you don't remember
+without pointing back to where it came from, that is a bug in the
+book — flag it and we will fix it.
+
+We are now ready to begin the story properly, with the question every RL
+course must start from: \emph{why does this field exist at all?}

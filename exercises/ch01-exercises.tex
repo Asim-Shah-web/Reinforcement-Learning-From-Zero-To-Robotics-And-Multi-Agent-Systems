@@ -1,0 +1,40 @@
+% Exercises for Chapter 1 — What Is Reinforcement Learning?
+
+\begin{enumerate}
+  \item \textbf{Conceptual.} Explain, in your own words, why supervised
+  learning is not a natural fit for teaching a robot to pour coffee.
+  What specifically is missing from a supervised-learning dataset that RL
+  provides instead?
+
+  \item \textbf{Conceptual.} Give an example (not from this chapter) of a
+  real-world problem that is naturally episodic, and one that is
+  naturally continuing. Justify each choice.
+
+  \item \textbf{State vs.\ observation.} For a self-driving car, describe
+  something that plausibly belongs to the true \emph{state} of the world
+  but would \emph{not} be directly available in the car's
+  \emph{observation} from its sensors.
+
+  \item \textbf{Numerical.} Using the $1\times4$ Grid World from this
+  chapter's worked example, write out the full trajectory (states,
+  actions, rewards) if the agent instead takes the actions
+  LEFT, RIGHT, RIGHT, RIGHT, RIGHT (recall moving off the strip leaves
+  the agent in place). How many total steps does this trajectory take
+  to reach the goal, compared to the RIGHT, RIGHT, RIGHT trajectory in
+  the chapter?
+
+  \item \textbf{Thought experiment.} Suppose every reward in Grid World
+  were changed to exactly $0$, including at the goal. What, if anything,
+  could an RL agent learn in this environment? What does this tell you
+  about the role reward plays in defining the task itself?
+
+  \item \textbf{Robotics.} Pick one component of the agent-environment
+  loop (state, action, reward, or environment) and describe concretely
+  what it would correspond to for a warehouse robot picking items off
+  shelves. Be specific about units or data type (e.g., "action = a
+  3-dimensional continuous vector of end-effector velocity, in m/s").
+
+  \item \textbf{Common mistakes.} A classmate says: "Reward and value are
+  basically the same thing, since a bigger reward is always better."
+  Explain, using an example, why this statement is misleading.
+\end{enumerate}
