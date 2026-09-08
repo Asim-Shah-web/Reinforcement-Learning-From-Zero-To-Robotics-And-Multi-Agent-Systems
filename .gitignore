@@ -4,6 +4,8 @@ build/
 # Exercise solutions (kept private by default)
 exercises/solutions/
 
+chapter/
+
 # Python
 __pycache__/
 *.py[cod]
